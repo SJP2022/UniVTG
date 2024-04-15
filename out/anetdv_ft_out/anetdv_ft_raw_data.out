@@ -1,0 +1,800 @@
+2024-04-15 00:35:35.029:INFO:__main__ - Setup config, data and model...
+2024-04-15 00:35:51.422:INFO:main.config - setup model/optimizer/scheduler
+2024-04-15 00:35:52.278:INFO:main.config - CUDA enabled.
+2024-04-15 00:35:52.305:INFO:main.config - Load checkpoint from results/slowfast_pt/model_best.ckpt
+2024-04-15 00:36:02.351:INFO:main.config - Loaded model saved at epoch 3 from checkpoint: results/slowfast_pt/model_best.ckpt
+2024-04-15 00:36:02.371:INFO:__main__ - Model Model(
+  (transformer): Transformer(
+    (encoder): TransformerEncoder(
+      (layers): ModuleList(
+        (0-3): 4 x TransformerEncoderLayer(
+          (self_attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=1024, out_features=1024, bias=True)
+          )
+          (linear1): Linear(in_features=1024, out_features=1024, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+          (linear2): Linear(in_features=1024, out_features=1024, bias=True)
+          (norm1): LayerNorm((1024,), eps=1e-05, elementwise_affine=True)
+          (norm2): LayerNorm((1024,), eps=1e-05, elementwise_affine=True)
+          (droppath1): DropPath()
+          (droppath2): DropPath()
+        )
+      )
+    )
+  )
+  (position_embed): PositionEmbeddingSine()
+  (txt_position_embed): TrainablePositionalEncoding(
+    (position_embeddings): Embedding(75, 1024)
+    (LayerNorm): LayerNorm((1024,), eps=1e-05, elementwise_affine=True)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+  (token_type_embeddings): Embedding(2, 1024)
+  (span_embed): Conv(
+    (layers): ModuleList(
+      (0-1): 2 x Conv1d(1024, 1024, kernel_size=(3,), stride=(1,), padding=(1,))
+      (2): Conv1d(1024, 2, kernel_size=(3,), stride=(1,), padding=(1,))
+    )
+  )
+  (class_embed): Conv(
+    (layers): ModuleList(
+      (0-1): 2 x Conv1d(1024, 1024, kernel_size=(3,), stride=(1,), padding=(1,))
+      (2): Conv1d(1024, 1, kernel_size=(3,), stride=(1,), padding=(1,))
+    )
+  )
+  (input_txt_proj): Sequential(
+    (0): LinearLayer(
+      (LayerNorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=512, out_features=1024, bias=True)
+      )
+    )
+    (1): LinearLayer(
+      (LayerNorm): LayerNorm((1024,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=1024, out_features=1024, bias=True)
+      )
+    )
+  )
+  (input_vid_proj): Sequential(
+    (0): LinearLayer(
+      (LayerNorm): LayerNorm((2818,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=2818, out_features=1024, bias=True)
+      )
+    )
+    (1): LinearLayer(
+      (LayerNorm): LayerNorm((1024,), eps=1e-05, elementwise_affine=True)
+      (net): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=1024, out_features=1024, bias=True)
+      )
+    )
+  )
+  (weightedpool): WeightedPool()
+)
+2024-04-15 00:36:02.372:INFO:__main__ - Start Training...
+/vhome/shijiapeng/miniconda3/envs/vtg/lib/python3.10/site-packages/torch/utils/data/dataloader.py:560: UserWarning: This DataLoader will create 16 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(_create_warning_msg(
+|                     | 0                                                                                                              |
+|:--------------------|:---------------------------------------------------------------------------------------------------------------|
+| dset_type           | mr                                                                                                             |
+| dset_name           | anet                                                                                                           |
+| anno_type           | anetdv                                                                                                         |
+| domain_name         |                                                                                                                |
+| model_id            | univtg                                                                                                         |
+| exp_id              | qvhl                                                                                                           |
+| device              | 0                                                                                                              |
+| gpu_id              | 0                                                                                                              |
+| debug               | False                                                                                                          |
+| seed                | 2018                                                                                                           |
+| local_rank          | -1                                                                                                             |
+| eval_split_name     | val                                                                                                            |
+| data_ratio          | 1.0                                                                                                            |
+| results_root        | results                                                                                                        |
+| num_workers         | 16                                                                                                             |
+| no_pin_memory       | False                                                                                                          |
+| bsz                 | 32                                                                                                             |
+| n_epoch             | 200                                                                                                            |
+| max_es_cnt          | 200                                                                                                            |
+| lr                  | 0.0001                                                                                                         |
+| lr_drop             | 80                                                                                                             |
+| lr_gamma            | 0.1                                                                                                            |
+| lr_warmup           | 10.0                                                                                                           |
+| wd                  | 0.0001                                                                                                         |
+| grad_clip           | 0.1                                                                                                            |
+| span_loss_type      | l1                                                                                                             |
+| b_loss_coef         | 10.0                                                                                                           |
+| g_loss_coef         | 1.0                                                                                                            |
+| eos_coef            | 0.1                                                                                                            |
+| f_loss_coef         | 10.0                                                                                                           |
+| s_loss_intra_coef   | 0.05                                                                                                           |
+| s_loss_inter_coef   | 0.01                                                                                                           |
+| main_metric         | MR-full-mAP-key                                                                                                |
+| eval_mode           | add                                                                                                            |
+| eval_bsz            | 4                                                                                                              |
+| eval_epoch          | 5                                                                                                              |
+| eval_init           | False                                                                                                          |
+| save_interval       | 50                                                                                                             |
+| resume              | results/slowfast_pt/model_best.ckpt                                                                            |
+| resume_dir          |                                                                                                                |
+| resume_all          | False                                                                                                          |
+| start_epoch         |                                                                                                                |
+| no_sort_results     | False                                                                                                          |
+| max_before_nms      | 1000                                                                                                           |
+| max_after_nms       | 10                                                                                                             |
+| conf_thd            | 0.0                                                                                                            |
+| nms_thd             | 0.7                                                                                                            |
+| use_cache           | -1                                                                                                             |
+| max_q_l             | 75                                                                                                             |
+| max_v_l             | 75                                                                                                             |
+| clip_length         | 2.0                                                                                                            |
+| clip_len_list       |                                                                                                                |
+| max_windows         | 5                                                                                                              |
+| add_easy_negative   | 1                                                                                                              |
+| easy_negative_only  | 1                                                                                                              |
+| round_multiple      | -1                                                                                                             |
+| train_path          | ['/vhome/shijiapeng/UniVTG/data/anetdv_new/metadata/train.jsonl']                                              |
+| eval_path           | /vhome/shijiapeng/UniVTG/data/anet/metadata/val_1.jsonl                                                        |
+| train_path_list     |                                                                                                                |
+| eval_path_list      |                                                                                                                |
+| feat_root_list      |                                                                                                                |
+| no_norm_vfeat       | False                                                                                                          |
+| no_norm_tfeat       | False                                                                                                          |
+| v_feat_dirs         | ['/vhome/shijiapeng/UniVTG/data/anetdv_new/vid_slowfast', '/vhome/shijiapeng/UniVTG/data/anetdv_new/vid_clip'] |
+| t_feat_dir          | /vhome/shijiapeng/UniVTG/data/anetdv_new/txt_clip                                                              |
+| t_feat_dir_val      | /vhome/shijiapeng/UniVTG/data/anet/txt_clip                                                                    |
+| t_feat_dir_mix      |                                                                                                                |
+| mix_path            |                                                                                                                |
+| v_feat_dim          | 2816                                                                                                           |
+| t_feat_dim          | 512                                                                                                            |
+| ctx_mode            | video_tef                                                                                                      |
+| v_feat_types        | slowfast_clip                                                                                                  |
+| t_feat_type         | clip                                                                                                           |
+| position_embedding  | sine                                                                                                           |
+| n_input_proj        | 2                                                                                                              |
+| temperature         | 0.07                                                                                                           |
+| enc_layers          | 4                                                                                                              |
+| sub_enc_layers      | 2                                                                                                              |
+| dec_layers          | 2                                                                                                              |
+| dim_feedforward     | 1024                                                                                                           |
+| hidden_dim          | 1024                                                                                                           |
+| input_dropout       | 0.5                                                                                                            |
+| dropout             | 0.0                                                                                                            |
+| droppath            | 0.1                                                                                                            |
+| txt_drop_ratio      | 0                                                                                                              |
+| use_txt_pos         | False                                                                                                          |
+| nheads              | 8                                                                                                              |
+| num_queries         | 10                                                                                                             |
+| pre_norm            | False                                                                                                          |
+| set_cost_span       | 10                                                                                                             |
+| set_cost_giou       | 1                                                                                                              |
+| set_cost_class      | 4                                                                                                              |
+| saliency_margin     | 0.2                                                                                                            |
+| aux_loss            | False                                                                                                          |
+| max_segment_num     | 20                                                                                                             |
+| max_frame_num       | 200                                                                                                            |
+| top_percent         | 0.02                                                                                                           |
+| qfvs_vid_feature    | fps1                                                                                                           |
+| qfvs_txt_feature    | query                                                                                                          |
+| qfvs_split          | -1                                                                                                             |
+| qfvs_dense_shot     | -1                                                                                                             |
+| qfvs_score_ensemble | -1                                                                                                             |
+| qfvs_score_gather   | -1                                                                                                             |
+| qfvs_loss_gather    | -1                                                                                                             |
+| out                 | anetdv_ft_raw_data                                                                                             |
+| results_dir         | results/mr-anetdv/qvhl-anetdv_ft_raw_data-2024_04_15_00                                                        |
+Parameter Count: all 43,406,855; trainable 43,406,855
+Epoch:   0%|          | 0/200 [00:00<?, ?it/s]2024-04-15 00:36:02.384:INFO:__main__ - [Epoch 1]
+
+Training Iteration:   0%|          | 0/3399 [00:00<?, ?it/s][A
+Training Iteration:   0%|          | 1/3399 [19:55<1128:36:12, 1195.70s/it][A
+Training Iteration:   0%|          | 3/3399 [20:17<300:03:14, 318.08s/it]  [A
+Training Iteration:   0%|          | 5/3399 [20:17<145:44:15, 154.58s/it][A
+Training Iteration:   0%|          | 7/3399 [20:18<84:03:14, 89.21s/it]  [A
+Training Iteration:   0%|          | 9/3399 [20:18<52:22:07, 55.61s/it][A
+Training Iteration:   0%|          | 11/3399 [20:18<34:02:44, 36.18s/it][A
+Training Iteration:   0%|          | 13/3399 [20:18<22:42:30, 24.14s/it][A
+Training Iteration:   0%|          | 15/3399 [20:18<15:23:51, 16.38s/it][A
+Training Iteration:   0%|          | 15/3399 [20:35<15:23:51, 16.38s/it][A
+Training Iteration:   1%|          | 17/3399 [39:57<185:16:39, 197.22s/it][A
+Training Iteration:   1%|          | 18/3399 [39:58<151:14:03, 161.03s/it][A
+Training Iteration:   1%|          | 19/3399 [40:26<125:17:14, 133.44s/it][A
+Training Iteration:   1%|          | 20/3399 [40:27<96:36:18, 102.92s/it] [A
+Training Iteration:   1%|          | 21/3399 [40:27<72:52:14, 77.66s/it] [A
+Training Iteration:   1%|          | 23/3399 [40:28<42:50:26, 45.68s/it][A
+Training Iteration:   1%|          | 24/3399 [40:28<33:10:09, 35.38s/it][A
+Training Iteration:   1%|          | 25/3399 [40:29<25:07:52, 26.81s/it][A
+Training Iteration:   1%|          | 27/3399 [40:29<14:47:31, 15.79s/it][A
+Training Iteration:   1%|          | 29/3399 [40:29<9:20:16,  9.98s/it] [A
+Training Iteration:   1%|          | 31/3399 [40:29<6:07:36,  6.55s/it][A
+Training Iteration:   1%|          | 33/3399 [1:00:18<188:00:07, 201.07s/it][A
+Training Iteration:   1%|          | 34/3399 [1:00:30<154:14:15, 165.01s/it][A
+Training Iteration:   1%|          | 35/3399 [1:01:06<128:16:16, 137.27s/it][A
+Training Iteration:   1%|          | 37/3399 [1:01:06<79:30:22, 85.13s/it]  [A
+Training Iteration:   1%|          | 38/3399 [1:01:07<62:40:11, 67.13s/it][A
+Training Iteration:   1%|          | 39/3399 [1:01:07<48:02:02, 51.46s/it][A
+Training Iteration:   1%|          | 40/3399 [1:01:07<36:01:41, 38.61s/it][A
+Training Iteration:   1%|          | 41/3399 [1:01:07<26:34:16, 28.49s/it][A
+Training Iteration:   1%|▏         | 43/3399 [1:01:08<15:14:28, 16.35s/it][A
+Training Iteration:   1%|▏         | 44/3399 [1:01:08<11:42:05, 12.56s/it][A
+Training Iteration:   1%|▏         | 46/3399 [1:01:08<7:01:49,  7.55s/it] [A
+Training Iteration:   1%|▏         | 47/3399 [1:01:08<5:30:01,  5.91s/it][A
+Training Iteration:   1%|▏         | 48/3399 [1:01:09<4:16:19,  4.59s/it][A
+Training Iteration:   1%|▏         | 49/3399 [1:18:50<256:27:54, 275.60s/it][A
+Training Iteration:   1%|▏         | 50/3399 [1:18:50<187:41:36, 201.76s/it][A
+Training Iteration:   2%|▏         | 51/3399 [1:19:28<145:20:05, 156.27s/it][A
+Training Iteration:   2%|▏         | 53/3399 [1:19:28<81:06:56, 87.27s/it]  [A
+Training Iteration:   2%|▏         | 55/3399 [1:19:28<49:43:45, 53.54s/it][A
+Training Iteration:   2%|▏         | 57/3399 [1:19:28<32:02:05, 34.51s/it][A
+Training Iteration:   2%|▏         | 59/3399 [1:19:29<21:15:43, 22.92s/it][A
+Training Iteration:   2%|▏         | 60/3399 [1:19:29<17:09:00, 18.49s/it][A
+Training Iteration:   2%|▏         | 62/3399 [1:19:29<11:03:06, 11.92s/it][A
+Training Iteration:   2%|▏         | 64/3399 [1:19:29<7:20:29,  7.92s/it] [A
+Training Iteration:   2%|▏         | 64/3399 [1:19:46<7:20:29,  7.92s/it][A
+Training Iteration:   2%|▏         | 65/3399 [1:36:19<187:37:07, 202.59s/it][A
+Training Iteration:   2%|▏         | 67/3399 [1:36:47<125:09:17, 135.22s/it][A
+Training Iteration:   2%|▏         | 69/3399 [1:36:47<82:51:50, 89.58s/it]  [A
+Training Iteration:   2%|▏         | 71/3399 [1:36:47<55:53:14, 60.46s/it][A
+Training Iteration:   2%|▏         | 73/3399 [1:36:47<38:09:03, 41.29s/it][A
+Training Iteration:   2%|▏         | 75/3399 [1:36:47<26:15:59, 28.45s/it][A
+Training Iteration:   2%|▏         | 77/3399 [1:36:47<18:10:51, 19.70s/it][A
+Training Iteration:   2%|▏         | 79/3399 [1:36:48<12:38:13, 13.70s/it][A
+Training Iteration:   2%|▏         | 79/3399 [1:37:06<12:38:13, 13.70s/it][A
+Training Iteration:   2%|▏         | 81/3399 [1:54:01<153:36:27, 166.66s/it][A
+Training Iteration:   2%|▏         | 82/3399 [1:54:02<126:11:31, 136.96s/it][A
+Training Iteration:   2%|▏         | 82/3399 [1:54:16<126:11:31, 136.96s/it][A
+Training Iteration:   2%|▏         | 83/3399 [1:54:31<106:02:29, 115.12s/it][A
+Training Iteration:   3%|▎         | 85/3399 [1:54:31<67:06:10, 72.89s/it]  [A
+Training Iteration:   3%|▎         | 86/3399 [1:54:31<53:10:35, 57.78s/it][A
+Training Iteration:   3%|▎         | 87/3399 [1:54:32<41:08:32, 44.72s/it][A
+Training Iteration:   3%|▎         | 89/3399 [1:54:32<24:53:14, 27.07s/it][A
+Training Iteration:   3%|▎         | 91/3399 [1:54:32<15:55:10, 17.32s/it][A
+Training Iteration:   3%|▎         | 92/3399 [1:54:33<12:40:50, 13.80s/it][A
+Training Iteration:   3%|▎         | 94/3399 [1:54:33<8:01:06,  8.73s/it] [A
+Training Iteration:   3%|▎         | 96/3399 [1:54:33<5:16:13,  5.74s/it][A
+Training Iteration:   3%|▎         | 96/3399 [1:54:46<5:16:13,  5.74s/it][A
+Training Iteration:   3%|▎         | 97/3399 [2:10:37<179:11:25, 195.36s/it][A
+Training Iteration:   3%|▎         | 99/3399 [2:11:24<122:08:24, 133.24s/it][A
+Training Iteration:   3%|▎         | 101/3399 [2:11:24<80:32:40, 87.92s/it] [A
+Training Iteration:   3%|▎         | 101/3399 [2:11:36<80:32:40, 87.92s/it][A
+Training Iteration:   3%|▎         | 103/3399 [2:12:05<60:19:56, 65.90s/it][A
+Training Iteration:   3%|▎         | 105/3399 [2:12:05<41:06:51, 44.93s/it][A
+Training Iteration:   3%|▎         | 107/3399 [2:12:05<28:16:40, 30.92s/it][A
+Training Iteration:   3%|▎         | 109/3399 [2:12:05<19:33:21, 21.40s/it][A
+Training Iteration:   3%|▎         | 111/3399 [2:12:06<13:35:00, 14.87s/it][A
+Training Iteration:   3%|▎         | 111/3399 [2:12:16<13:35:00, 14.87s/it][A
+Training Iteration:   3%|▎         | 113/3399 [2:28:43<147:56:58, 162.09s/it][A
+Training Iteration:   3%|▎         | 115/3399 [2:28:44<103:12:45, 113.14s/it][A
+Training Iteration:   3%|▎         | 117/3399 [2:28:44<72:00:49, 78.99s/it]  [A
+Training Iteration:   4%|▎         | 119/3399 [2:29:24<55:39:32, 61.09s/it][A
+Training Iteration:   4%|▎         | 121/3399 [2:29:24<38:54:13, 42.73s/it][A
+Training Iteration:   4%|▎         | 123/3399 [2:29:24<27:12:35, 29.90s/it][A
+Training Iteration:   4%|▎         | 125/3399 [2:29:24<19:03:00, 20.95s/it][A
+Training Iteration:   4%|▎         | 127/3399 [2:29:24<13:20:30, 14.68s/it][A
+Training Iteration:   4%|▎         | 127/3399 [2:29:36<13:20:30, 14.68s/it][A
+Training Iteration:   4%|▍         | 129/3399 [2:44:30<132:47:16, 146.19s/it][A
+Training Iteration:   4%|▍         | 130/3399 [2:44:58<113:46:41, 125.30s/it][A
+Training Iteration:   4%|▍         | 131/3399 [2:45:30<96:50:57, 106.69s/it] [A
+Training Iteration:   4%|▍         | 132/3399 [2:45:31<75:13:02, 82.88s/it] [A
+Training Iteration:   4%|▍         | 134/3399 [2:45:31<45:54:24, 50.62s/it][A
+Training Iteration:   4%|▍         | 134/3399 [2:45:46<45:54:24, 50.62s/it][A
+Training Iteration:   4%|▍         | 135/3399 [2:46:23<46:10:49, 50.93s/it][A
+Training Iteration:   4%|▍         | 136/3399 [2:46:23<35:14:37, 38.88s/it][A
+Training Iteration:   4%|▍         | 138/3399 [2:46:23<21:02:04, 23.22s/it][A
+Training Iteration:   4%|▍         | 140/3399 [2:46:23<13:21:16, 14.75s/it][A
+Training Iteration:   4%|▍         | 142/3399 [2:46:24<8:47:18,  9.71s/it] [A
+Training Iteration:   4%|▍         | 144/3399 [2:46:24<5:54:56,  6.54s/it][A
+Training Iteration:   4%|▍         | 144/3399 [2:46:36<5:54:56,  6.54s/it][A
+Training Iteration:   4%|▍         | 145/3399 [3:00:48<153:31:59, 169.86s/it][A
+Training Iteration:   4%|▍         | 146/3399 [3:01:16<126:03:31, 139.51s/it][A
+Training Iteration:   4%|▍         | 147/3399 [3:01:24<98:09:10, 108.66s/it] [A
+Training Iteration:   4%|▍         | 149/3399 [3:01:24<58:49:26, 65.16s/it] [A
+Training Iteration:   4%|▍         | 150/3399 [3:02:00<52:54:27, 58.62s/it][A
+Training Iteration:   4%|▍         | 151/3399 [3:03:10<55:24:57, 61.42s/it][A
+Training Iteration:   4%|▍         | 152/3399 [3:03:10<41:14:00, 45.72s/it][A
+Training Iteration:   5%|▍         | 154/3399 [3:03:10<23:49:15, 26.43s/it][A
+Training Iteration:   5%|▍         | 156/3399 [3:03:11<14:52:10, 16.51s/it][A
+Training Iteration:   5%|▍         | 158/3399 [3:03:11<9:41:14, 10.76s/it] [A
+Training Iteration:   5%|▍         | 160/3399 [3:03:11<6:28:45,  7.20s/it][A
+Training Iteration:   5%|▍         | 160/3399 [3:03:27<6:28:45,  7.20s/it][A
+Training Iteration:   5%|▍         | 161/3399 [3:15:43<135:13:42, 150.35s/it][A
+Training Iteration:   5%|▍         | 162/3399 [3:16:28<114:46:39, 127.65s/it][A
+Training Iteration:   5%|▍         | 164/3399 [3:16:28<71:01:41, 79.04s/it]  [A
+Training Iteration:   5%|▍         | 166/3399 [3:16:43<48:20:21, 53.83s/it][A
+Training Iteration:   5%|▍         | 167/3399 [3:17:30<47:06:46, 52.48s/it][A
+Training Iteration:   5%|▍         | 169/3399 [3:17:30<29:55:38, 33.36s/it][A
+Training Iteration:   5%|▌         | 171/3399 [3:17:30<19:41:00, 21.95s/it][A
+Training Iteration:   5%|▌         | 173/3399 [3:17:30<13:13:43, 14.76s/it][A
+Training Iteration:   5%|▌         | 175/3399 [3:17:31<9:01:07, 10.07s/it] [A
+Training Iteration:   5%|▌         | 175/3399 [3:17:47<9:01:07, 10.07s/it][A
+Training Iteration:   5%|▌         | 177/3399 [3:27:48<92:48:54, 103.70s/it][A
+Training Iteration:   5%|▌         | 178/3399 [3:29:07<88:46:42, 99.22s/it] [A
+Training Iteration:   5%|▌         | 179/3399 [3:29:08<70:23:50, 78.71s/it][A
+Training Iteration:   5%|▌         | 181/3399 [3:29:08<44:13:13, 49.47s/it][A
+Training Iteration:   5%|▌         | 181/3399 [3:29:27<44:13:13, 49.47s/it][A
+Training Iteration:   5%|▌         | 183/3399 [3:29:53<35:53:30, 40.18s/it][A
+Training Iteration:   5%|▌         | 185/3399 [3:29:54<24:06:19, 27.00s/it][A
+Training Iteration:   6%|▌         | 187/3399 [3:29:54<16:22:31, 18.35s/it][A
+Training Iteration:   6%|▌         | 188/3399 [3:29:54<13:20:40, 14.96s/it][A
+Training Iteration:   6%|▌         | 189/3399 [3:29:54<10:33:15, 11.84s/it][A
+Training Iteration:   6%|▌         | 191/3399 [3:29:55<6:37:12,  7.43s/it] [A
+Training Iteration:   6%|▌         | 193/3399 [3:38:08<81:04:49, 91.04s/it][A
+Training Iteration:   6%|▌         | 194/3399 [3:38:55<73:11:03, 82.20s/it][A
+Training Iteration:   6%|▌         | 196/3399 [3:38:55<46:35:59, 52.38s/it][A
+Training Iteration:   6%|▌         | 198/3399 [3:38:56<30:41:06, 34.51s/it][A
+Training Iteration:   6%|▌         | 200/3399 [3:38:56<20:37:50, 23.22s/it][A
+Training Iteration:   6%|▌         | 200/3399 [3:39:07<20:37:50, 23.22s/it][A
+Training Iteration:   6%|▌         | 201/3399 [3:40:22<31:13:14, 35.15s/it][A
+Training Iteration:   6%|▌         | 203/3399 [3:40:22<20:15:18, 22.82s/it][A
+Training Iteration:   6%|▌         | 205/3399 [3:40:22<13:29:51, 15.21s/it][A
+Training Iteration:   6%|▌         | 207/3399 [3:40:22<9:09:38, 10.33s/it] [A
+Training Iteration:   6%|▌         | 207/3399 [3:40:37<9:09:38, 10.33s/it][A
+Training Iteration:   6%|▌         | 209/3399 [3:49:11<80:17:09, 90.60s/it][A
+Training Iteration:   6%|▌         | 210/3399 [3:50:31<78:32:17, 88.66s/it][A
+Training Iteration:   6%|▌         | 212/3399 [3:50:31<51:27:29, 58.13s/it][A
+Training Iteration:   6%|▋         | 214/3399 [3:50:32<34:28:51, 38.97s/it][A
+Training Iteration:   6%|▋         | 216/3399 [3:50:32<23:26:36, 26.51s/it][A
+Training Iteration:   6%|▋         | 216/3399 [3:50:48<23:26:36, 26.51s/it][A
+Training Iteration:   6%|▋         | 217/3399 [3:51:12<25:42:58, 29.09s/it][A
+Training Iteration:   6%|▋         | 218/3399 [3:51:12<20:21:09, 23.03s/it][A
+Training Iteration:   6%|▋         | 220/3399 [3:51:12<12:44:06, 14.42s/it][A
+Training Iteration:   7%|▋         | 222/3399 [3:51:13<8:18:36,  9.42s/it] [A
+Training Iteration:   7%|▋         | 224/3399 [3:51:13<5:33:54,  6.31s/it][A
+Training Iteration:   7%|▋         | 224/3399 [3:51:28<5:33:54,  6.31s/it][A
+Training Iteration:   7%|▋         | 225/3399 [3:59:07<84:47:59, 96.18s/it][A
+Training Iteration:   7%|▋         | 226/3399 [4:00:32<82:37:19, 93.74s/it][A
+Training Iteration:   7%|▋         | 228/3399 [4:00:33<51:20:47, 58.29s/it][A
+Training Iteration:   7%|▋         | 229/3399 [4:00:33<40:22:35, 45.85s/it][A
+Training Iteration:   7%|▋         | 231/3399 [4:00:34<25:04:26, 28.49s/it][A
+Training Iteration:   7%|▋         | 232/3399 [4:00:34<19:45:02, 22.45s/it][A
+Training Iteration:   7%|▋         | 234/3399 [4:00:34<12:17:35, 13.98s/it][A
+Training Iteration:   7%|▋         | 234/3399 [4:00:48<12:17:35, 13.98s/it][A
+Training Iteration:   7%|▋         | 236/3399 [4:01:21<15:13:45, 17.33s/it][A
+Training Iteration:   7%|▋         | 238/3399 [4:01:21<10:09:37, 11.57s/it][A
+Training Iteration:   7%|▋         | 240/3399 [4:01:21<6:55:22,  7.89s/it] [A
+Training Iteration:   7%|▋         | 241/3399 [4:09:11<82:48:39, 94.40s/it][A
+Training Iteration:   7%|▋         | 242/3399 [4:11:57<96:06:25, 109.59s/it][A
+Training Iteration:   7%|▋         | 243/3399 [4:11:58<73:54:04, 84.30s/it] [A
+Training Iteration:   7%|▋         | 244/3399 [4:12:30<62:27:58, 71.28s/it][A
+Training Iteration:   7%|▋         | 245/3399 [4:12:30<46:05:48, 52.62s/it][A
+Training Iteration:   7%|▋         | 247/3399 [4:12:30<26:21:58, 30.11s/it][A
+Training Iteration:   7%|▋         | 249/3399 [4:12:30<16:22:22, 18.71s/it][A
+Training Iteration:   7%|▋         | 251/3399 [4:12:30<10:37:59, 12.16s/it][A
+Training Iteration:   7%|▋         | 253/3399 [4:12:30<7:05:45,  8.12s/it] [A
+Training Iteration:   8%|▊         | 255/3399 [4:12:31<4:49:49,  5.53s/it][A
+Training Iteration:   8%|▊         | 255/3399 [4:12:48<4:49:49,  5.53s/it][A
+Training Iteration:   8%|▊         | 257/3399 [4:20:15<67:16:59, 77.09s/it][A
+Training Iteration:   8%|▊         | 258/3399 [4:23:15<83:49:18, 96.07s/it][A
+Training Iteration:   8%|▊         | 260/3399 [4:23:29<56:59:54, 65.37s/it][A
+Training Iteration:   8%|▊         | 262/3399 [4:23:29<38:11:25, 43.83s/it][A
+Training Iteration:   8%|▊         | 264/3399 [4:23:29<25:58:02, 29.82s/it][A
+Training Iteration:   8%|▊         | 266/3399 [4:23:29<17:49:30, 20.48s/it][A
+Training Iteration:   8%|▊         | 268/3399 [4:23:30<12:19:09, 14.16s/it][A
+Training Iteration:   8%|▊         | 268/3399 [4:23:48<12:19:09, 14.16s/it][A
+Training Iteration:   8%|▊         | 270/3399 [4:23:56<12:02:47, 13.86s/it][A
+Training Iteration:   8%|▊         | 271/3399 [4:23:56<9:55:45, 11.43s/it] [A
+Training Iteration:   8%|▊         | 272/3399 [4:23:57<7:58:55,  9.19s/it][A
+Training Iteration:   8%|▊         | 273/3399 [4:32:08<102:27:54, 118.00s/it][A
+Training Iteration:   8%|▊         | 274/3399 [4:34:15<104:24:02, 120.27s/it][A
+Training Iteration:   8%|▊         | 276/3399 [4:34:15<61:31:07, 70.91s/it]  [A
+Training Iteration:   8%|▊         | 277/3399 [4:34:15<47:34:24, 54.86s/it][A
+Training Iteration:   8%|▊         | 278/3399 [4:34:15<35:57:41, 41.48s/it][A
+Training Iteration:   8%|▊         | 279/3399 [4:34:16<26:40:19, 30.78s/it][A
+Training Iteration:   8%|▊         | 281/3399 [4:34:16<15:20:45, 17.72s/it][A
+Training Iteration:   8%|▊         | 282/3399 [4:34:16<11:47:45, 13.62s/it][A
+Training Iteration:   8%|▊         | 283/3399 [4:34:16<8:53:16, 10.27s/it] [A
+Training Iteration:   8%|▊         | 285/3399 [4:34:16<5:12:41,  6.02s/it][A
+Training Iteration:   8%|▊         | 286/3399 [4:34:45<9:46:49, 11.31s/it][A
+Training Iteration:   8%|▊         | 288/3399 [4:34:45<5:55:57,  6.87s/it][A
+Training Iteration:   8%|▊         | 288/3399 [4:34:58<5:55:57,  6.87s/it][A
+Training Iteration:   9%|▊         | 289/3399 [4:42:34<93:50:15, 108.62s/it][A
+Training Iteration:   9%|▊         | 290/3399 [4:44:35<96:19:56, 111.55s/it][A
+Training Iteration:   9%|▊         | 291/3399 [4:44:35<71:47:14, 83.15s/it] [A
+Training Iteration:   9%|▊         | 292/3399 [4:45:25<64:06:36, 74.28s/it][A
+Training Iteration:   9%|▊         | 294/3399 [4:45:25<36:25:30, 42.23s/it][A
+Training Iteration:   9%|▊         | 296/3399 [4:45:25<22:31:21, 26.13s/it][A
+Training Iteration:   9%|▊         | 297/3399 [4:45:26<17:43:05, 20.56s/it][A
+Training Iteration:   9%|▉         | 299/3399 [4:45:26<11:00:26, 12.78s/it][A
+Training Iteration:   9%|▉         | 300/3399 [4:45:26<8:40:28, 10.08s/it] [A
+Training Iteration:   9%|▉         | 302/3399 [4:45:35<6:49:42,  7.94s/it][A
+Training Iteration:   9%|▉         | 304/3399 [4:45:35<4:27:07,  5.18s/it][A
+Training Iteration:   9%|▉         | 305/3399 [4:55:14<103:24:23, 120.32s/it][A
+Training Iteration:   9%|▉         | 306/3399 [4:57:53<110:38:59, 128.79s/it][A
+Training Iteration:   9%|▉         | 308/3399 [4:58:13<70:56:39, 82.63s/it]  [A
+Training Iteration:   9%|▉         | 310/3399 [4:58:13<45:36:14, 53.15s/it][A
+Training Iteration:   9%|▉         | 312/3399 [4:58:13<30:12:05, 35.22s/it][A
+Training Iteration:   9%|▉         | 314/3399 [4:58:13<20:23:08, 23.79s/it][A
+Training Iteration:   9%|▉         | 316/3399 [4:58:13<13:55:38, 16.26s/it][A
+Training Iteration:   9%|▉         | 316/3399 [4:58:28<13:55:38, 16.26s/it][A
+Training Iteration:   9%|▉         | 318/3399 [4:58:45<13:43:44, 16.04s/it][A
+Training Iteration:   9%|▉         | 319/3399 [4:58:45<11:14:27, 13.14s/it][A
+Training Iteration:   9%|▉         | 319/3399 [4:58:58<11:14:27, 13.14s/it][A
+Training Iteration:   9%|▉         | 321/3399 [5:06:57<79:23:05, 92.85s/it][A
+Training Iteration:   9%|▉         | 322/3399 [5:09:28<89:08:17, 104.29s/it][A
+Training Iteration:  10%|▉         | 324/3399 [5:09:59<61:47:40, 72.34s/it] [A
+Training Iteration:  10%|▉         | 326/3399 [5:09:59<40:49:13, 47.82s/it][A
+Training Iteration:  10%|▉         | 328/3399 [5:09:59<27:29:45, 32.23s/it][A
+Training Iteration:  10%|▉         | 330/3399 [5:09:59<18:46:54, 22.03s/it][A
+Training Iteration:  10%|▉         | 332/3399 [5:09:59<12:55:52, 15.18s/it][A
+Training Iteration:  10%|▉         | 332/3399 [5:10:18<12:55:52, 15.18s/it][A
+Training Iteration:  10%|▉         | 334/3399 [5:10:20<11:39:57, 13.70s/it][A
+Training Iteration:  10%|▉         | 336/3399 [5:10:20<8:06:42,  9.53s/it] [A
+Training Iteration:  10%|▉         | 336/3399 [5:10:38<8:06:42,  9.53s/it][A
+Training Iteration:  10%|▉         | 337/3399 [5:19:20<88:55:33, 104.55s/it][A
+Training Iteration:  10%|▉         | 338/3399 [5:21:44<95:50:31, 112.72s/it][A
+Training Iteration:  10%|▉         | 339/3399 [5:21:44<74:12:47, 87.31s/it] [A
+Training Iteration:  10%|▉         | 339/3399 [5:21:58<74:12:47, 87.31s/it][A
+Training Iteration:  10%|█         | 340/3399 [5:22:25<64:32:05, 75.95s/it][A
+Training Iteration:  10%|█         | 342/3399 [5:22:25<38:02:38, 44.80s/it][A
+Training Iteration:  10%|█         | 344/3399 [5:22:25<23:59:19, 28.27s/it][A
+Training Iteration:  10%|█         | 346/3399 [5:22:26<15:42:38, 18.53s/it][A
+Training Iteration:  10%|█         | 348/3399 [5:22:26<10:38:31, 12.56s/it][A
+Training Iteration:  10%|█         | 350/3399 [5:23:01<11:51:58, 14.01s/it][A
+Training Iteration:  10%|█         | 351/3399 [5:23:01<9:40:22, 11.42s/it] [A
+Training Iteration:  10%|█         | 353/3399 [5:32:23<89:01:45, 105.22s/it][A
+Training Iteration:  10%|█         | 354/3399 [5:35:17<100:30:29, 118.83s/it][A
+Training Iteration:  10%|█         | 355/3399 [5:35:17<78:16:27, 92.57s/it]  [A
+Training Iteration:  11%|█         | 357/3399 [5:35:17<47:57:13, 56.75s/it][A
+Training Iteration:  11%|█         | 359/3399 [5:35:18<30:52:34, 36.56s/it][A
+Training Iteration:  11%|█         | 361/3399 [5:35:18<20:28:39, 24.27s/it][A
+Training Iteration:  11%|█         | 363/3399 [5:35:18<13:49:55, 16.40s/it][A
+Training Iteration:  11%|█         | 363/3399 [5:35:28<13:49:55, 16.40s/it][A
+Training Iteration:  11%|█         | 364/3399 [5:35:32<13:29:51, 16.01s/it][A
+Training Iteration:  11%|█         | 366/3399 [5:35:55<12:08:01, 14.40s/it][A
+Training Iteration:  11%|█         | 368/3399 [5:35:55<8:06:55,  9.64s/it] [A
+Training Iteration:  11%|█         | 368/3399 [5:36:08<8:06:55,  9.64s/it][A
+Training Iteration:  11%|█         | 369/3399 [5:46:11<106:12:31, 126.19s/it][A
+Training Iteration:  11%|█         | 370/3399 [5:48:21<106:48:10, 126.94s/it][A
+Training Iteration:  11%|█         | 372/3399 [5:48:21<66:05:11, 78.60s/it]  [A
+Training Iteration:  11%|█         | 374/3399 [5:48:21<42:49:57, 50.97s/it][A
+Training Iteration:  11%|█         | 375/3399 [5:48:22<34:19:49, 40.87s/it][A
+Training Iteration:  11%|█         | 376/3399 [5:48:22<26:43:55, 31.83s/it][A
+Training Iteration:  11%|█         | 377/3399 [5:48:23<20:19:19, 24.21s/it][A
+Training Iteration:  11%|█         | 379/3399 [5:48:23<12:05:52, 14.42s/it][A
+Training Iteration:  11%|█         | 380/3399 [5:48:45<13:23:14, 15.96s/it][A
+Training Iteration:  11%|█         | 381/3399 [5:48:45<10:08:49, 12.10s/it][A
+Training Iteration:  11%|█         | 382/3399 [5:48:54<9:33:57, 11.41s/it] [A
+Training Iteration:  11%|█▏        | 384/3399 [5:48:54<5:32:17,  6.61s/it][A
+Training Iteration:  11%|█▏        | 385/3399 [5:59:29<127:54:30, 152.78s/it][A
+Training Iteration:  11%|█▏        | 386/3399 [6:02:03<128:15:10, 153.24s/it][A
+Training Iteration:  11%|█▏        | 388/3399 [6:02:04<74:50:50, 89.49s/it]  [A
+Training Iteration:  11%|█▏        | 390/3399 [6:02:04<46:55:50, 56.15s/it][A
+Training Iteration:  12%|█▏        | 392/3399 [6:02:04<30:37:16, 36.66s/it][A
+Training Iteration:  12%|█▏        | 394/3399 [6:02:04<20:28:10, 24.52s/it][A
+Training Iteration:  12%|█▏        | 394/3399 [6:02:19<20:28:10, 24.52s/it][A
+Training Iteration:  12%|█▏        | 396/3399 [6:02:26<16:50:14, 20.18s/it][A
+Training Iteration:  12%|█▏        | 398/3399 [6:02:46<14:08:34, 16.97s/it][A
+Training Iteration:  12%|█▏        | 400/3399 [6:02:46<9:46:12, 11.73s/it] [A
+Training Iteration:  12%|█▏        | 400/3399 [6:02:59<9:46:12, 11.73s/it][A
+Training Iteration:  12%|█▏        | 401/3399 [6:13:21<103:54:37, 124.78s/it][A
+Training Iteration:  12%|█▏        | 402/3399 [6:15:26<103:50:58, 124.74s/it][A
+Training Iteration:  12%|█▏        | 404/3399 [6:15:26<65:22:42, 78.59s/it]  [A
+Training Iteration:  12%|█▏        | 406/3399 [6:15:26<42:45:15, 51.43s/it][A
+Training Iteration:  12%|█▏        | 408/3399 [6:15:26<28:37:01, 34.44s/it][A
+Training Iteration:  12%|█▏        | 410/3399 [6:15:26<19:26:30, 23.42s/it][A
+Training Iteration:  12%|█▏        | 412/3399 [6:15:36<14:35:14, 17.58s/it][A
+Training Iteration:  12%|█▏        | 414/3399 [6:15:36<10:04:48, 12.16s/it][A
+Training Iteration:  12%|█▏        | 416/3399 [6:15:36<7:00:08,  8.45s/it] [A
+Training Iteration:  12%|█▏        | 416/3399 [6:15:49<7:00:08,  8.45s/it][A
+Training Iteration:  12%|█▏        | 417/3399 [6:26:34<103:37:30, 125.10s/it][A
+Training Iteration:  12%|█▏        | 418/3399 [6:28:46<104:47:38, 126.55s/it][A
+Training Iteration:  12%|█▏        | 420/3399 [6:28:46<66:08:40, 79.93s/it]  [A
+Training Iteration:  12%|█▏        | 422/3399 [6:28:46<43:19:14, 52.39s/it][A
+Training Iteration:  12%|█▏        | 424/3399 [6:28:46<29:01:18, 35.12s/it][A
+Training Iteration:  13%|█▎        | 426/3399 [6:28:47<19:43:43, 23.89s/it][A
+Training Iteration:  13%|█▎        | 428/3399 [6:28:47<13:32:37, 16.41s/it][A
+Training Iteration:  13%|█▎        | 430/3399 [6:28:47<9:21:46, 11.35s/it] [A
+Training Iteration:  13%|█▎        | 432/3399 [6:28:47<6:30:48,  7.90s/it][A
+Training Iteration:  13%|█▎        | 432/3399 [6:28:59<6:30:48,  7.90s/it][A
+Training Iteration:  13%|█▎        | 433/3399 [6:40:14<106:58:02, 129.83s/it][A
+Training Iteration:  13%|█▎        | 434/3399 [6:42:44<110:24:50, 134.06s/it][A
+Training Iteration:  13%|█▎        | 436/3399 [6:42:44<69:41:51, 84.68s/it]  [A
+Training Iteration:  13%|█▎        | 438/3399 [6:42:44<45:39:33, 55.51s/it][A
+Training Iteration:  13%|█▎        | 440/3399 [6:42:45<30:35:18, 37.21s/it][A
+Training Iteration:  13%|█▎        | 442/3399 [6:42:45<20:48:04, 25.32s/it][A
+Training Iteration:  13%|█▎        | 444/3399 [6:42:45<14:16:46, 17.40s/it][A
+Training Iteration:  13%|█▎        | 446/3399 [6:42:45<9:52:11, 12.03s/it] [A
+Training Iteration:  13%|█▎        | 448/3399 [6:42:45<6:51:27,  8.37s/it][A
+Training Iteration:  13%|█▎        | 448/3399 [6:42:59<6:51:27,  8.37s/it][A
+Training Iteration:  13%|█▎        | 449/3399 [6:53:30<100:32:13, 122.69s/it][A
+Training Iteration:  13%|█▎        | 450/3399 [6:56:42<112:11:40, 136.96s/it][A
+Training Iteration:  13%|█▎        | 452/3399 [6:56:43<70:49:11, 86.51s/it]  [A
+Training Iteration:  13%|█▎        | 454/3399 [6:56:43<46:23:02, 56.70s/it][A
+Training Iteration:  13%|█▎        | 456/3399 [6:56:43<31:04:22, 38.01s/it][A
+Training Iteration:  13%|█▎        | 458/3399 [6:56:43<21:07:19, 25.85s/it][A
+Training Iteration:  14%|█▎        | 460/3399 [6:56:43<14:29:57, 17.76s/it][A
+Training Iteration:  14%|█▎        | 462/3399 [6:56:43<10:01:19, 12.28s/it][A
+Training Iteration:  14%|█▎        | 464/3399 [6:56:43<6:57:49,  8.54s/it] [A
+Training Iteration:  14%|█▎        | 464/3399 [6:56:59<6:57:49,  8.54s/it][A
+Training Iteration:  14%|█▎        | 465/3399 [7:07:46<102:44:56, 126.07s/it][A
+Training Iteration:  14%|█▎        | 466/3399 [7:10:46<111:44:46, 137.16s/it][A
+Training Iteration:  14%|█▍        | 468/3399 [7:10:47<70:32:14, 86.64s/it]  [A
+Training Iteration:  14%|█▍        | 470/3399 [7:10:47<46:11:56, 56.78s/it][A
+Training Iteration:  14%|█▍        | 472/3399 [7:10:47<30:56:56, 38.07s/it][A
+Training Iteration:  14%|█▍        | 474/3399 [7:10:47<21:02:14, 25.89s/it][A
+Training Iteration:  14%|█▍        | 476/3399 [7:10:47<14:26:27, 17.79s/it][A
+Training Iteration:  14%|█▍        | 478/3399 [7:10:47<9:58:52, 12.30s/it] [A
+Training Iteration:  14%|█▍        | 480/3399 [7:10:47<6:56:03,  8.55s/it][A
+Training Iteration:  14%|█▍        | 480/3399 [7:10:59<6:56:03,  8.55s/it][A
+Training Iteration:  14%|█▍        | 481/3399 [7:22:08<104:45:15, 129.24s/it][A
+Training Iteration:  14%|█▍        | 482/3399 [7:25:16<114:28:24, 141.28s/it][A
+Training Iteration:  14%|█▍        | 484/3399 [7:25:16<72:16:08, 89.25s/it]  [A
+Training Iteration:  14%|█▍        | 486/3399 [7:25:16<47:20:16, 58.50s/it][A
+Training Iteration:  14%|█▍        | 488/3399 [7:25:16<31:42:40, 39.22s/it][A
+Training Iteration:  14%|█▍        | 490/3399 [7:25:17<21:33:52, 26.69s/it][A
+Training Iteration:  14%|█▍        | 492/3399 [7:25:17<14:48:35, 18.34s/it][A
+Training Iteration:  15%|█▍        | 494/3399 [7:25:17<10:14:38, 12.69s/it][A
+Training Iteration:  15%|█▍        | 496/3399 [7:25:17<7:06:58,  8.82s/it] [A
+Training Iteration:  15%|█▍        | 496/3399 [7:25:29<7:06:58,  8.82s/it][A
+Training Iteration:  15%|█▍        | 497/3399 [7:36:20<101:52:15, 126.37s/it][A
+Training Iteration:  15%|█▍        | 498/3399 [7:39:35<113:11:38, 140.47s/it][A
+Training Iteration:  15%|█▍        | 499/3399 [7:39:36<87:38:09, 108.79s/it] [A
+Training Iteration:  15%|█▍        | 500/3399 [7:39:36<66:15:04, 82.27s/it] [A
+Training Iteration:  15%|█▍        | 502/3399 [7:39:36<39:02:13, 48.51s/it][A
+Training Iteration:  15%|█▍        | 504/3399 [7:39:36<24:36:25, 30.60s/it][A
+Training Iteration:  15%|█▍        | 506/3399 [7:39:36<16:06:51, 20.05s/it][A
+Training Iteration:  15%|█▍        | 508/3399 [7:39:37<10:49:16, 13.48s/it][A
+Training Iteration:  15%|█▍        | 509/3399 [7:39:37<8:46:02, 10.92s/it] [A
+Training Iteration:  15%|█▌        | 511/3399 [7:39:37<5:41:24,  7.09s/it][A
+Training Iteration:  15%|█▌        | 511/3399 [7:39:49<5:41:24,  7.09s/it][A
+Training Iteration:  15%|█▌        | 513/3399 [7:51:45<101:41:18, 126.85s/it][A
+Training Iteration:  15%|█▌        | 514/3399 [7:54:36<108:26:19, 135.31s/it][A
+Training Iteration:  15%|█▌        | 515/3399 [7:54:36<84:58:28, 106.07s/it] [A
+Training Iteration:  15%|█▌        | 516/3399 [7:54:36<64:55:11, 81.07s/it] [A
+Training Iteration:  15%|█▌        | 518/3399 [7:54:37<38:46:44, 48.46s/it][A
+Training Iteration:  15%|█▌        | 520/3399 [7:54:37<24:37:11, 30.79s/it][A
+Training Iteration:  15%|█▌        | 522/3399 [7:54:37<16:11:16, 20.26s/it][A
+Training Iteration:  15%|█▌        | 524/3399 [7:54:37<10:53:03, 13.63s/it][A
+Training Iteration:  15%|█▌        | 526/3399 [7:54:37<7:25:13,  9.30s/it] [A
+Training Iteration:  16%|█▌        | 528/3399 [7:54:37<5:06:37,  6.41s/it][A
+Training Iteration:  16%|█▌        | 528/3399 [7:54:49<5:06:37,  6.41s/it][A
+Training Iteration:  16%|█▌        | 529/3399 [8:06:27<107:36:30, 134.98s/it][A
+Training Iteration:  16%|█▌        | 530/3399 [8:10:07<121:45:16, 152.78s/it][A
+Training Iteration:  16%|█▌        | 532/3399 [8:10:08<76:27:02, 96.00s/it]  [A
+Training Iteration:  16%|█▌        | 534/3399 [8:10:08<49:54:53, 62.72s/it][A
+Training Iteration:  16%|█▌        | 536/3399 [8:10:08<33:22:16, 41.96s/it][A
+Training Iteration:  16%|█▌        | 538/3399 [8:10:08<22:39:10, 28.50s/it][A
+Training Iteration:  16%|█▌        | 540/3399 [8:10:08<15:32:06, 19.56s/it][A
+Training Iteration:  16%|█▌        | 542/3399 [8:10:08<10:43:47, 13.52s/it][A
+Training Iteration:  16%|█▌        | 544/3399 [8:10:09<7:26:59,  9.39s/it] [A
+Training Iteration:  16%|█▌        | 544/3399 [8:10:20<7:26:59,  9.39s/it][A
+Training Iteration:  16%|█▌        | 545/3399 [8:21:28<102:58:29, 129.89s/it][A
+Training Iteration:  16%|█▌        | 546/3399 [8:24:55<115:21:35, 145.56s/it][A
+Training Iteration:  16%|█▌        | 548/3399 [8:24:55<72:48:03, 91.93s/it]  [A
+Training Iteration:  16%|█▌        | 550/3399 [8:24:55<47:42:03, 60.28s/it][A
+Training Iteration:  16%|█▌        | 552/3399 [8:24:55<31:57:03, 40.40s/it][A
+Training Iteration:  16%|█▋        | 554/3399 [8:24:56<21:45:09, 27.53s/it][A
+Training Iteration:  16%|█▋        | 556/3399 [8:24:56<14:56:09, 18.91s/it][A
+Training Iteration:  16%|█▋        | 558/3399 [8:24:56<10:19:18, 13.08s/it][A
+Training Iteration:  16%|█▋        | 560/3399 [8:24:56<7:10:11,  9.09s/it] [A
+Training Iteration:  16%|█▋        | 560/3399 [8:25:10<7:10:11,  9.09s/it][A
+Training Iteration:  17%|█▋        | 561/3399 [8:36:28<103:54:08, 131.80s/it][A
+Training Iteration:  17%|█▋        | 562/3399 [8:39:59<116:41:01, 148.07s/it][A
+Training Iteration:  17%|█▋        | 564/3399 [8:40:00<73:38:59, 93.52s/it]  [A
+Training Iteration:  17%|█▋        | 566/3399 [8:40:00<48:14:02, 61.29s/it][A
+Training Iteration:  17%|█▋        | 568/3399 [8:40:00<32:18:47, 41.09s/it][A
+Training Iteration:  17%|█▋        | 570/3399 [8:40:00<21:57:45, 27.95s/it][A
+Training Iteration:  17%|█▋        | 572/3399 [8:40:00<15:04:28, 19.20s/it][A
+Training Iteration:  17%|█▋        | 574/3399 [8:40:00<10:25:12, 13.28s/it][A
+Training Iteration:  17%|█▋        | 576/3399 [8:40:01<7:15:05,  9.25s/it] [A
+Training Iteration:  17%|█▋        | 576/3399 [8:40:20<7:15:05,  9.25s/it][A
+Training Iteration:  17%|█▋        | 577/3399 [8:52:14<109:16:21, 139.40s/it][A
+Training Iteration:  17%|█▋        | 578/3399 [8:55:22<117:02:06, 149.35s/it][A
+Training Iteration:  17%|█▋        | 580/3399 [8:55:23<73:52:18, 94.34s/it]  [A
+Training Iteration:  17%|█▋        | 582/3399 [8:55:23<48:22:45, 61.83s/it][A
+Training Iteration:  17%|█▋        | 584/3399 [8:55:23<32:24:24, 41.44s/it][A
+Training Iteration:  17%|█▋        | 586/3399 [8:55:23<22:01:33, 28.19s/it][A
+Training Iteration:  17%|█▋        | 588/3399 [8:55:23<15:07:03, 19.36s/it][A
+Training Iteration:  17%|█▋        | 590/3399 [8:55:23<10:27:16, 13.40s/it][A
+Training Iteration:  17%|█▋        | 592/3399 [8:55:24<7:16:12,  9.32s/it] [A
+Training Iteration:  17%|█▋        | 592/3399 [8:55:40<7:16:12,  9.32s/it][A
+Training Iteration:  17%|█▋        | 593/3399 [9:08:19<114:38:54, 147.09s/it][A
+Training Iteration:  17%|█▋        | 594/3399 [9:10:45<114:21:49, 146.78s/it][A
+Training Iteration:  18%|█▊        | 596/3399 [9:10:45<72:11:10, 92.71s/it]  [A
+Training Iteration:  18%|█▊        | 598/3399 [9:10:45<47:17:14, 60.78s/it][A
+Training Iteration:  18%|█▊        | 600/3399 [9:10:46<31:40:33, 40.74s/it][A
+Training Iteration:  18%|█▊        | 602/3399 [9:10:46<21:31:57, 27.71s/it][A
+Training Iteration:  18%|█▊        | 604/3399 [9:10:46<14:46:45, 19.04s/it][A
+Training Iteration:  18%|█▊        | 606/3399 [9:10:46<10:12:49, 13.16s/it][A
+Training Iteration:  18%|█▊        | 608/3399 [9:10:46<7:05:48,  9.15s/it] [A
+Training Iteration:  18%|█▊        | 608/3399 [9:11:00<7:05:48,  9.15s/it][A
+Training Iteration:  18%|█▊        | 609/3399 [9:24:16<118:31:31, 152.94s/it][A
+Training Iteration:  18%|█▊        | 610/3399 [9:26:44<117:48:47, 152.07s/it][A
+Training Iteration:  18%|█▊        | 612/3399 [9:26:44<74:21:42, 96.05s/it]  [A
+Training Iteration:  18%|█▊        | 614/3399 [9:26:45<48:41:59, 62.95s/it][A
+Training Iteration:  18%|█▊        | 616/3399 [9:26:45<32:37:16, 42.20s/it][A
+Training Iteration:  18%|█▊        | 618/3399 [9:26:45<22:10:17, 28.70s/it][A
+Training Iteration:  18%|█▊        | 620/3399 [9:26:45<15:13:01, 19.71s/it][A
+Training Iteration:  18%|█▊        | 622/3399 [9:26:45<10:30:55, 13.63s/it][A
+Training Iteration:  18%|█▊        | 624/3399 [9:26:45<7:18:12,  9.47s/it] [A
+Training Iteration:  18%|█▊        | 624/3399 [9:27:00<7:18:12,  9.47s/it][A
+Training Iteration:  18%|█▊        | 625/3399 [9:40:43<121:57:22, 158.27s/it][A
+Training Iteration:  18%|█▊        | 626/3399 [9:42:56<118:01:45, 153.23s/it][A
+Training Iteration:  18%|█▊        | 628/3399 [9:42:57<74:29:51, 96.79s/it]  [A
+Training Iteration:  19%|█▊        | 630/3399 [9:42:57<48:47:39, 63.44s/it][A
+Training Iteration:  19%|█▊        | 632/3399 [9:42:57<32:40:59, 42.52s/it][A
+Training Iteration:  19%|█▊        | 634/3399 [9:42:57<22:13:16, 28.93s/it][A
+Training Iteration:  19%|█▊        | 636/3399 [9:42:57<15:15:01, 19.87s/it][A
+Training Iteration:  19%|█▉        | 638/3399 [9:42:57<10:32:18, 13.74s/it][A
+Training Iteration:  19%|█▉        | 640/3399 [9:42:58<7:19:07,  9.55s/it] [A
+Training Iteration:  19%|█▉        | 640/3399 [9:43:10<7:19:07,  9.55s/it][A
+Training Iteration:  19%|█▉        | 641/3399 [9:56:49<120:24:57, 157.18s/it][A
+Training Iteration:  19%|█▉        | 642/3399 [9:58:11<108:38:11, 141.85s/it][A
+Training Iteration:  19%|█▉        | 644/3399 [9:58:11<68:34:14, 89.60s/it]  [A
+Training Iteration:  19%|█▉        | 646/3399 [9:58:11<44:54:27, 58.72s/it][A
+Training Iteration:  19%|█▉        | 648/3399 [9:58:11<30:05:38, 39.38s/it][A
+Training Iteration:  19%|█▉        | 650/3399 [9:58:12<20:28:24, 26.81s/it][A
+Training Iteration:  19%|█▉        | 652/3399 [9:58:12<14:03:10, 18.42s/it][A
+Training Iteration:  19%|█▉        | 654/3399 [9:58:12<9:42:42, 12.74s/it] [A
+Training Iteration:  19%|█▉        | 656/3399 [9:58:12<6:44:46,  8.85s/it][A
+Training Iteration:  19%|█▉        | 656/3399 [9:58:30<6:44:46,  8.85s/it][A
+Training Iteration:  19%|█▉        | 657/3399 [10:12:37<123:56:45, 162.73s/it][A
+Training Iteration:  19%|█▉        | 658/3399 [10:14:28<115:45:31, 152.04s/it][A
+Training Iteration:  19%|█▉        | 660/3399 [10:14:28<73:03:59, 96.03s/it]  [A
+Training Iteration:  19%|█▉        | 662/3399 [10:14:28<47:51:02, 62.94s/it][A
+Training Iteration:  20%|█▉        | 664/3399 [10:14:28<32:03:13, 42.19s/it][A
+Training Iteration:  20%|█▉        | 666/3399 [10:14:28<21:47:25, 28.70s/it][A
+Training Iteration:  20%|█▉        | 668/3399 [10:14:28<14:57:52, 19.73s/it][A
+Training Iteration:  20%|█▉        | 670/3399 [10:14:29<10:22:12, 13.68s/it][A
+Training Iteration:  20%|█▉        | 671/3399 [10:14:29<8:30:33, 11.23s/it] [A
+Training Iteration:  20%|█▉        | 673/3399 [10:29:05<118:40:40, 156.73s/it][A
+Training Iteration:  20%|█▉        | 674/3399 [10:31:13<114:22:25, 151.10s/it][A
+Training Iteration:  20%|█▉        | 676/3399 [10:31:13<73:18:00, 96.91s/it]  [A
+Training Iteration:  20%|█▉        | 678/3399 [10:31:13<48:26:36, 64.09s/it][A
+Training Iteration:  20%|██        | 680/3399 [10:31:13<32:38:06, 43.21s/it][A
+Training Iteration:  20%|██        | 682/3399 [10:31:13<22:15:48, 29.50s/it][A
+Training Iteration:  20%|██        | 684/3399 [10:31:14<15:19:03, 20.31s/it][A
+Training Iteration:  20%|██        | 686/3399 [10:31:14<10:36:06, 14.07s/it][A
+Training Iteration:  20%|██        | 688/3399 [10:31:14<7:22:16,  9.79s/it] [A
+Training Iteration:  20%|██        | 688/3399 [10:31:30<7:22:16,  9.79s/it][A
+Training Iteration:  20%|██        | 689/3399 [10:45:32<121:50:59, 161.87s/it][A
+Training Iteration:  20%|██        | 690/3399 [10:47:45<117:27:02, 156.08s/it][A
+Training Iteration:  20%|██        | 692/3399 [10:47:45<74:10:41, 98.65s/it]  [A
+Training Iteration:  20%|██        | 694/3399 [10:47:46<48:35:46, 64.68s/it][A
+Training Iteration:  20%|██        | 696/3399 [10:47:46<32:33:28, 43.36s/it][A
+Training Iteration:  21%|██        | 698/3399 [10:47:46<22:07:48, 29.50s/it][A
+Training Iteration:  21%|██        | 700/3399 [10:47:46<15:11:20, 20.26s/it][A
+Training Iteration:  21%|██        | 702/3399 [10:47:46<10:29:45, 14.01s/it][A
+Training Iteration:  21%|██        | 704/3399 [10:47:46<7:17:21,  9.74s/it] [A
+Training Iteration:  21%|██        | 704/3399 [10:48:00<7:17:21,  9.74s/it][A
+Training Iteration:  21%|██        | 705/3399 [11:02:19<123:21:54, 164.85s/it][A
+Training Iteration:  21%|██        | 706/3399 [11:04:23<117:05:47, 156.53s/it][A
+Training Iteration:  21%|██        | 708/3399 [11:04:24<73:54:31, 98.87s/it]  [A
+Training Iteration:  21%|██        | 710/3399 [11:04:24<48:24:06, 64.80s/it][A
+Training Iteration:  21%|██        | 712/3399 [11:04:24<32:25:38, 43.45s/it][A
+Training Iteration:  21%|██        | 714/3399 [11:04:24<22:03:22, 29.57s/it][A
+Training Iteration:  21%|██        | 716/3399 [11:04:24<15:08:12, 20.31s/it][A
+Training Iteration:  21%|██        | 718/3399 [11:04:25<10:28:02, 14.06s/it][A
+Training Iteration:  21%|██        | 720/3399 [11:04:25<7:16:07,  9.77s/it] [A
+Training Iteration:  21%|██        | 720/3399 [11:04:41<7:16:07,  9.77s/it][A
+Training Iteration:  21%|██        | 721/3399 [11:20:00<130:57:51, 176.05s/it][A
+Training Iteration:  21%|██        | 722/3399 [11:21:48<120:35:21, 162.17s/it][A
+Training Iteration:  21%|██▏       | 723/3399 [11:21:48<93:20:57, 125.58s/it] [A
+Training Iteration:  21%|██▏       | 725/3399 [11:21:48<56:42:43, 76.35s/it] [A
+Training Iteration:  21%|██▏       | 727/3399 [11:21:48<36:20:18, 48.96s/it][A
+Training Iteration:  21%|██▏       | 729/3399 [11:21:49<24:01:37, 32.40s/it][A
+Training Iteration:  22%|██▏       | 731/3399 [11:21:49<16:11:33, 21.85s/it][A
+Training Iteration:  22%|██▏       | 733/3399 [11:21:59<12:14:00, 16.52s/it][A
+Training Iteration:  22%|██▏       | 735/3399 [11:21:59<8:25:26, 11.38s/it] [A
+Training Iteration:  22%|██▏       | 735/3399 [11:22:11<8:25:26, 11.38s/it][A
+Training Iteration:  22%|██▏       | 737/3399 [11:37:09<109:39:32, 148.30s/it][A
+Training Iteration:  22%|██▏       | 738/3399 [11:38:45<102:34:45, 138.78s/it][A
+Training Iteration:  22%|██▏       | 740/3399 [11:38:45<67:38:08, 91.57s/it]  [A
+Training Iteration:  22%|██▏       | 742/3399 [11:38:45<45:29:36, 61.64s/it][A
+Training Iteration:  22%|██▏       | 744/3399 [11:38:45<30:59:52, 42.03s/it][A
+Training Iteration:  22%|██▏       | 746/3399 [11:38:46<21:18:22, 28.91s/it][A
+Training Iteration:  22%|██▏       | 746/3399 [11:39:01<21:18:22, 28.91s/it][A
+Training Iteration:  22%|██▏       | 748/3399 [11:39:50<22:04:02, 29.97s/it][A
+Training Iteration:  22%|██▏       | 750/3399 [11:39:50<15:19:08, 20.82s/it][A
+Training Iteration:  22%|██▏       | 752/3399 [11:39:51<10:40:04, 14.51s/it][A
+Training Iteration:  22%|██▏       | 752/3399 [11:40:01<10:40:04, 14.51s/it][A
+Training Iteration:  22%|██▏       | 753/3399 [11:54:34<124:39:44, 169.61s/it][A
+Training Iteration:  22%|██▏       | 754/3399 [11:56:11<113:48:47, 154.91s/it][A
+Training Iteration:  22%|██▏       | 756/3399 [11:56:11<71:58:54, 98.05s/it]  [A
+Training Iteration:  22%|██▏       | 758/3399 [11:56:12<47:11:33, 64.33s/it][A
+Training Iteration:  22%|██▏       | 760/3399 [11:56:12<31:37:56, 43.15s/it][A
+Training Iteration:  22%|██▏       | 762/3399 [11:56:12<21:30:28, 29.36s/it][A
+Training Iteration:  22%|██▏       | 762/3399 [11:56:31<21:30:28, 29.36s/it][A
+Training Iteration:  22%|██▏       | 764/3399 [11:56:48<18:52:24, 25.79s/it][A
+Training Iteration:  23%|██▎       | 766/3399 [11:56:48<13:02:23, 17.83s/it][A
+Training Iteration:  23%|██▎       | 768/3399 [11:56:48<9:03:07, 12.39s/it] [A
+Training Iteration:  23%|██▎       | 768/3399 [11:57:01<9:03:07, 12.39s/it][A
+Training Iteration:  23%|██▎       | 769/3399 [12:12:34<131:36:00, 180.14s/it][A
+Training Iteration:  23%|██▎       | 770/3399 [12:13:59<117:17:07, 160.60s/it][A
+Training Iteration:  23%|██▎       | 772/3399 [12:13:59<74:01:46, 101.45s/it] [A
+Training Iteration:  23%|██▎       | 774/3399 [12:13:59<48:28:51, 66.49s/it] [A
+Training Iteration:  23%|██▎       | 776/3399 [12:13:59<32:30:25, 44.61s/it][A
+Training Iteration:  23%|██▎       | 778/3399 [12:14:00<22:06:13, 30.36s/it][A
+Training Iteration:  23%|██▎       | 780/3399 [12:14:46<20:29:15, 28.16s/it][A
+Training Iteration:  23%|██▎       | 782/3399 [12:14:47<14:09:00, 19.47s/it][A
+Training Iteration:  23%|██▎       | 784/3399 [12:14:47<9:49:45, 13.53s/it] [A
+Training Iteration:  23%|██▎       | 785/3399 [12:30:03<127:37:50, 175.77s/it][A
+Training Iteration:  23%|██▎       | 786/3399 [12:31:30<114:23:48, 157.61s/it][A
+Training Iteration:  23%|██▎       | 788/3399 [12:31:30<72:12:03, 99.55s/it]  [A
+Training Iteration:  23%|██▎       | 790/3399 [12:31:30<47:17:04, 65.25s/it][A
+Training Iteration:  23%|██▎       | 792/3399 [12:31:31<31:41:46, 43.77s/it][A
+Training Iteration:  23%|██▎       | 794/3399 [12:31:31<21:32:26, 29.77s/it][A
+Training Iteration:  23%|██▎       | 794/3399 [12:31:41<21:32:26, 29.77s/it][A
+Training Iteration:  23%|██▎       | 796/3399 [12:32:14<19:36:53, 27.13s/it][A
+Training Iteration:  23%|██▎       | 797/3399 [12:32:14<16:02:01, 22.18s/it][A
+Training Iteration:  24%|██▎       | 799/3399 [12:32:14<10:32:22, 14.59s/it][A
+Training Iteration:  24%|██▎       | 801/3399 [12:46:52<111:26:39, 154.43s/it][A
+Training Iteration:  24%|██▎       | 802/3399 [12:49:06<108:35:25, 150.53s/it][A
+Training Iteration:  24%|██▎       | 804/3399 [12:49:07<70:17:49, 97.52s/it]  [A
+Training Iteration:  24%|██▎       | 806/3399 [12:49:07<46:44:36, 64.90s/it][A
+Training Iteration:  24%|██▍       | 808/3399 [12:49:07<31:36:49, 43.92s/it][A
+Training Iteration:  24%|██▍       | 810/3399 [12:49:07<21:37:17, 30.06s/it][A
+Training Iteration:  24%|██▍       | 810/3399 [12:49:22<21:37:17, 30.06s/it][A
+Training Iteration:  24%|██▍       | 812/3399 [12:51:07<28:14:48, 39.31s/it][A
+Training Iteration:  24%|██▍       | 814/3399 [12:51:07<19:33:29, 27.24s/it][A
+Training Iteration:  24%|██▍       | 816/3399 [12:51:07<13:36:00, 18.95s/it][A
+Training Iteration:  24%|██▍       | 816/3399 [12:51:22<13:36:00, 18.95s/it][A
+Training Iteration:  24%|██▍       | 817/3399 [13:13:34<184:05:08, 256.66s/it][A
+Training Iteration:  24%|██▍       | 818/3399 [13:15:36<164:28:41, 229.42s/it][A
+Training Iteration:  24%|██▍       | 820/3399 [13:15:37<103:54:42, 145.05s/it][A
+Training Iteration:  24%|██▍       | 822/3399 [13:15:37<68:07:32, 95.17s/it]  [A
+Training Iteration:  24%|██▍       | 823/3399 [13:15:37<54:39:57, 76.40s/it][A
+Training Iteration:  24%|██▍       | 825/3399 [13:15:38<34:58:26, 48.91s/it][A
+Training Iteration:  24%|██▍       | 826/3399 [13:15:38<27:48:49, 38.92s/it][A
+Training Iteration:  24%|██▍       | 828/3399 [13:16:12<21:59:10, 30.79s/it][A
+Training Iteration:  24%|██▍       | 829/3399 [13:16:12<17:25:12, 24.40s/it][A
+Training Iteration:  24%|██▍       | 831/3399 [13:16:12<10:55:38, 15.32s/it][A
+Training Iteration:  25%|██▍       | 833/3399 [13:31:05<117:48:23, 165.28s/it][A
+Training Iteration:  25%|██▍       | 834/3399 [13:32:46<108:39:24, 152.50s/it][A
+Training Iteration:  25%|██▍       | 836/3399 [13:33:12<72:40:25, 102.08s/it] [A
+Training Iteration:  25%|██▍       | 837/3399 [13:33:13<57:43:24, 81.11s/it] [A
+Training Iteration:  25%|██▍       | 839/3399 [13:33:13<36:20:55, 51.12s/it][A
+Training Iteration:  25%|██▍       | 841/3399 [13:33:13<23:46:35, 33.46s/it][A
+Training Iteration:  25%|██▍       | 843/3399 [13:33:13<15:55:07, 22.42s/it][A
+Training Iteration:  25%|██▍       | 843/3399 [13:33:32<15:55:07, 22.42s/it][A
+Training Iteration:  25%|██▍       | 844/3399 [13:33:50<17:54:04, 25.22s/it][A
+Training Iteration:  25%|██▍       | 846/3399 [13:33:50<11:35:39, 16.35s/it][A
+Training Iteration:  25%|██▍       | 848/3399 [13:33:51<7:43:25, 10.90s/it] [A
+Training Iteration:  25%|██▍       | 848/3399 [13:34:02<7:43:25, 10.90s/it][A
+Training Iteration:  25%|██▍       | 849/3399 [13:48:21<125:20:06, 176.94s/it][A
+Training Iteration:  25%|██▌       | 850/3399 [13:50:45<120:21:18, 169.98s/it][A
+Training Iteration:  25%|██▌       | 852/3399 [13:50:46<74:20:44, 105.08s/it] [A
+Training Iteration:  25%|██▌       | 854/3399 [13:50:46<48:04:47, 68.01s/it] [A
+Training Iteration:  25%|██▌       | 856/3399 [13:50:46<31:57:14, 45.24s/it][A
+Training Iteration:  25%|██▌       | 858/3399 [13:50:46<21:37:03, 30.63s/it][A
+Training Iteration:  25%|██▌       | 858/3399 [13:51:02<21:37:03, 30.63s/it][A
+Training Iteration:  25%|██▌       | 860/3399 [13:51:25<19:04:11, 27.04s/it][A
+Training Iteration:  25%|██▌       | 861/3399 [13:51:25<15:34:06, 22.08s/it][A
+Training Iteration:  25%|██▌       | 863/3399 [13:51:25<10:12:31, 14.49s/it][A
+Training Iteration:  25%|██▌       | 863/3399 [13:51:42<10:12:31, 14.49s/it][A
+Training Iteration:  25%|██▌       | 865/3399 [14:07:58<122:14:31, 173.67s/it][A
+Training Iteration:  25%|██▌       | 866/3399 [14:09:57<114:49:33, 163.20s/it][A
+Training Iteration:  26%|██▌       | 868/3399 [14:10:30<78:15:33, 111.31s/it] [A
+Training Iteration:  26%|██▌       | 870/3399 [14:10:30<52:00:40, 74.04s/it] [A
+Training Iteration:  26%|██▌       | 872/3399 [14:10:30<35:09:44, 50.09s/it][A
+Training Iteration:  26%|██▌       | 874/3399 [14:10:30<24:02:27, 34.28s/it][A
+Training Iteration:  26%|██▌       | 874/3399 [14:10:42<24:02:27, 34.28s/it][A
+Training Iteration:  26%|██▌       | 876/3399 [14:10:44<18:05:59, 25.83s/it][A
+Training Iteration:  26%|██▌       | 878/3399 [14:10:44<12:32:12, 17.90s/it][A
+Training Iteration:  26%|██▌       | 880/3399 [14:10:45<8:43:18, 12.46s/it] [A
+Training Iteration:  26%|██▌       | 880/3399 [14:11:02<8:43:18, 12.46s/it][A
+Training Iteration:  26%|██▌       | 881/3399 [14:25:46<120:01:29, 171.60s/it][A
+Training Iteration:  26%|██▌       | 882/3399 [14:28:17<117:08:49, 167.55s/it][A
+Training Iteration:  26%|██▌       | 884/3399 [14:28:47<77:45:45, 111.31s/it] [A
+Training Iteration:  26%|██▌       | 886/3399 [14:28:47<50:57:06, 72.99s/it] [A
+Training Iteration:  26%|██▌       | 888/3399 [14:28:47<34:08:16, 48.94s/it][A
+Training Iteration:  26%|██▌       | 890/3399 [14:28:47<23:12:23, 33.30s/it][A
+Training Iteration:  26%|██▌       | 890/3399 [14:29:02<23:12:23, 33.30s/it][A
+Training Iteration:  26%|██▌       | 892/3399 [14:29:14<18:51:42, 27.09s/it][A
+Training Iteration:  26%|██▋       | 894/3399 [14:29:15<13:01:50, 18.73s/it][A
+Training Iteration:  26%|██▋       | 896/3399 [14:29:15<9:02:38, 13.01s/it] [A
+Training Iteration:  26%|██▋       | 896/3399 [14:29:32<9:02:38, 13.01s/it][A
+Training Iteration:  26%|██▋       | 897/3399 [14:44:28<121:25:41, 174.72s/it][A
+Training Iteration:  26%|██▋       | 898/3399 [14:46:44<115:57:26, 166.91s/it][A
+Training Iteration:  26%|██▋       | 900/3399 [14:47:23<78:11:10, 112.63s/it] [A
+Training Iteration:  27%|██▋       | 902/3399 [14:47:24<51:11:54, 73.81s/it] [A
+Training Iteration:  27%|██▋       | 904/3399 [14:47:24<34:17:58, 49.49s/it][A
+Training Iteration:  27%|██▋       | 906/3399 [14:47:24<23:18:47, 33.67s/it][A
+Training Iteration:  27%|██▋       | 906/3399 [14:47:42<23:18:47, 33.67s/it][A
+Training Iteration:  27%|██▋       | 908/3399 [14:48:04<20:16:30, 29.30s/it][A
+Training Iteration:  27%|██▋       | 910/3399 [14:48:04<14:00:08, 20.25s/it][A
+Training Iteration:  27%|██▋       | 912/3399 [14:48:04<9:42:59, 14.07s/it] [A
+Training Iteration:  27%|██▋       | 912/3399 [14:48:22<9:42:59, 14.07s/it][A

@@ -222,7 +222,9 @@ def start_training():
         txt_drop_ratio=opt.txt_drop_ratio,
         use_cache=opt.use_cache,
         add_easy_negative=opt.add_easy_negative,
-        easy_negative_only=opt.easy_negative_only
+        easy_negative_only=opt.easy_negative_only,
+        mix_path=opt.mix_path,
+        q_feat_dir_mix=opt.t_feat_dir_mix
     )
 
     dataset_config["data_path"] = opt.train_path
@@ -231,7 +233,7 @@ def start_training():
     if opt.eval_path is not None:
         dataset_config["data_path"] = opt.eval_path
         dataset_config["txt_drop_ratio"] = 0
-        dataset_config["q_feat_dir"] = opt.t_feat_dir.replace("txt_clip_asr", "txt_clip").replace("txt_clip_cap", "txt_clip")  # for pretraining
+        dataset_config["q_feat_dir"] = opt.t_feat_dir_val.replace("txt_clip_asr", "txt_clip").replace("txt_clip_cap", "txt_clip")  # for pretraining
         # dataset_config["load_labels"] = False  # uncomment to calculate eval loss
         eval_dataset = DatasetMR(**dataset_config)
     else:

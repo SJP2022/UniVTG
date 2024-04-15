@@ -406,7 +406,8 @@ class DatasetMR(Dataset):
                  max_q_l=32, max_v_l=75, data_ratio=1.0, ctx_mode="video",
                  normalize_v=True, normalize_t=True, load_labels=True,
                  clip_len=2, max_windows=5, span_loss_type="l1", txt_drop_ratio=0,
-                 use_cache=-1, fix_len=-1, add_easy_negative=1, easy_negative_only=-1):
+                 use_cache=-1, fix_len=-1, add_easy_negative=1, easy_negative_only=-1,
+                 mix_path=None, q_feat_dir_mix=None):
         self.dset_name = dset_name
         self.data_path = data_path[0] if isinstance(data_path, list) else data_path
         self.data_ratio = data_ratio
@@ -432,6 +433,8 @@ class DatasetMR(Dataset):
         self.use_cache = use_cache
         self.add_easy_negative = add_easy_negative
         self.easy_negative_only = easy_negative_only
+        self.mix_path = mix_path
+        self.q_feat_dir_mix = q_feat_dir_mix
         
         if "val" in data_path or "test" in data_path:
             assert txt_drop_ratio == 0
@@ -468,6 +471,11 @@ class DatasetMR(Dataset):
 
     def load_data(self):
         datalist = load_jsonl(self.data_path)
+        if self.mix_path:
+            datalist_mix = load_jsonl(self.mix_path)
+            for item in datalist_mix:
+                item['mix'] = True
+            datalist.extend(datalist_mix)
         if self.data_ratio != 1:
             n_examples = int(len(datalist) * self.data_ratio)
             datalist = datalist[:n_examples]
@@ -482,7 +490,10 @@ class DatasetMR(Dataset):
         meta = self.data[index]
 
         model_inputs = dict()
-        model_inputs["query_feat"] = self._get_query_feat_by_qid(meta["qid"])  # (Dq, ) or (Lq, Dq)
+        if 'mix' in meta:
+            model_inputs["query_feat"] = self._get_query_feat_by_qid(meta["qid"], True)
+        else:
+            model_inputs["query_feat"] = self._get_query_feat_by_qid(meta["qid"])  # (Dq, ) or (Lq, Dq)
 
         if self.use_video:
             model_inputs["video_feat"] = self._get_video_feat_by_vid(meta["vid"])  # (Lv, Dv)
@@ -641,7 +652,7 @@ class DatasetMR(Dataset):
             raise NotImplementedError
         return windows
 
-    def _get_query_feat_by_qid(self, qid):
+    def _get_query_feat_by_qid(self, qid, mix=False):
         if self.use_cache > 0:
             try:
                 q_feat = self.txt_cache[qid]
@@ -649,7 +660,10 @@ class DatasetMR(Dataset):
                 q_feat = np.zeros((10, self.q_feat_dim)).astype(np.float32)
             return  torch.from_numpy(q_feat)
 
-        q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
+        if mix:
+            q_feat_path = join(self.q_feat_dir_mix, f"{qid}.npz")
+        else:
+            q_feat_path = join(self.q_feat_dir, f"{qid}.npz")
         try: 
             q_feat = np.load(q_feat_path)[self.q_feat_type].astype(np.float32)
         except:

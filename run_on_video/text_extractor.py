@@ -1,3 +1,4 @@
+import argparse
 import pdb
 import sys
 import json
@@ -8,14 +9,23 @@ import torch.nn.functional as F
 import tqdm
 import os
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--dataset', type=str, required=True)
+parser.add_argument('--split', type=str, required=True)
+parser.add_argument('--out', type=str, required=True)
+args = parser.parse_args()
+
+dataset = args.dataset
+split = args.split
+out = args.out
 query_list = []
 qid_list = []
-dataset = 'charades'
-split = 'test'
 
-save_dir = f''
+txt_path = f"data/{dataset}/metadata/{split}.jsonl"
+save_dir = f"data/{dataset}/{out}"
 
-with open(f"data/{dataset}/metadata/{dataset}_{split}.jsonl", 'r') as f:
+#with open(f"data/{dataset}/metadata/{dataset}_{split}.jsonl", 'r') as f:
+with open(txt_path, 'r') as f:
     while True:
         line = f.readline()
         if not line:
@@ -29,6 +39,7 @@ feature_extractor = ClipFeatureExtractor(
     framerate=1 / 2, size=224, centercrop=True,
     model_name_or_path="ViT-B/32", device='cuda'
 )
+
 # pdb.set_trace()
 query_feats = feature_extractor.encode_text(query_list)
 

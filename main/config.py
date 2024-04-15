@@ -31,6 +31,7 @@ class BaseOptions(object):
         # * Running configs
         parser.add_argument("--dset_type", type=str, choices=["mr", "hl", "vs", "vlp"])    # moment retrieval, highlight detection, and video summarization
         parser.add_argument("--dset_name", type=str, choices=["qvhighlights", "charades", "anet", "tvsum", "youtube", "summe", "ego4d", "qfvs", "video2gif", "coin", "hacs", "vlp", "videocc", "tacos"])
+        parser.add_argument("--anno_type", type=str, default="anet")
         parser.add_argument("--domain_name", type=str, default=None)
         parser.add_argument("--model_id", type=str, default="moment_detr")
         parser.add_argument("--exp_id", type=str, default="debug", help="id of this run, required at training")
@@ -139,6 +140,9 @@ class BaseOptions(object):
                             help="video feature dirs. If more than one, will concat their features. "
                                  "Note that sub ctx features are also accepted here.")
         parser.add_argument("--t_feat_dir", type=str, help="text/query feature dir")
+        parser.add_argument("--t_feat_dir_val", type=str, help="text/query feature dir")
+        parser.add_argument("--t_feat_dir_mix", type=str, default=None, help="text/query feature dir")
+        parser.add_argument("--mix_path", type=str, default=None)
         parser.add_argument("--v_feat_dim", type=int, help="video feature dim")
         parser.add_argument("--t_feat_dim", type=int, help="text/query feature dim")
         parser.add_argument("--ctx_mode", type=str, default="video_tef")
@@ -201,6 +205,8 @@ class BaseOptions(object):
         parser.add_argument("--qfvs_score_ensemble", type=int, default=-1)
         parser.add_argument("--qfvs_score_gather", type=int, default=-1)
         parser.add_argument("--qfvs_loss_gather", type=int, default=-1)
+
+        parser.add_argument("--out", type=str, required=True, help="result_dir")
         self.parser = parser
 
     def display_save(self, opt):
@@ -252,7 +258,7 @@ class BaseOptions(object):
             # ctx_str = opt.ctx_mode + "_sub" if any(["sub_ctx" in p for p in opt.v_feat_dirs]) else opt.ctx_mode
 
             if 'debug' not in opt.exp_id:
-                opt.results_dir = os.path.join(opt.results_root, "-".join([opt.dset_type, opt.dset_name]), "-".join([opt.exp_id, opt.v_feat_types, opt.t_feat_type, time.strftime("%Y_%m_%d_%H")]))
+                opt.results_dir = os.path.join(opt.results_root, "-".join([opt.dset_type, opt.anno_type]), "-".join([opt.exp_id, opt.out, time.strftime("%Y_%m_%d_%H")]))
             else:
                 opt.results_dir = os.path.join(opt.results_root, "-".join([opt.dset_type, opt.dset_name]), opt.exp_id) # debug mode.
 
