@@ -62,7 +62,7 @@ t_feat_type=clip
 use_cache=-1
 easy_negative_only=1
 
-resume=results/slowfast_pt/model_best.ckpt
+resume=results/mr-anetlv/qvhl-anetlv_ft_our_data/model_best.ckpt
 
 # kill pid in gpu_id
 # ps -up `nvidia-smi -i ${gpu_id} -q -x | grep pid | sed -e 's/<pid>//g' -e 's/<\/pid>//g' -e 's/^[[:space:]]*//'` | awk '{print "kill -9 " $2;}' | sh

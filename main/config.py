@@ -258,7 +258,7 @@ class BaseOptions(object):
             # ctx_str = opt.ctx_mode + "_sub" if any(["sub_ctx" in p for p in opt.v_feat_dirs]) else opt.ctx_mode
 
             if 'debug' not in opt.exp_id:
-                opt.results_dir = os.path.join(opt.results_root, "-".join([opt.dset_type, opt.anno_type]), "-".join([opt.exp_id, opt.out, time.strftime("%Y_%m_%d_%H")]))
+                opt.results_dir = os.path.join(opt.results_root, "-".join([opt.dset_type, opt.anno_type]), "-".join([opt.exp_id, opt.out]))
             else:
                 opt.results_dir = os.path.join(opt.results_root, "-".join([opt.dset_type, opt.dset_name]), opt.exp_id) # debug mode.
 

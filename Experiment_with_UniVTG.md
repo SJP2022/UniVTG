@@ -2,6 +2,29 @@
 
 Notice: We use slurm for job running, you may need to slightly modify the code to adapt your environment if you do not use slurm system.
 
+## Run it
+
+```shell
+bash my_scripts/env_data.sh
+bash my_scripts/txt_extractor.sh
+
+bash my_scripts/anetdv_ft_our_data.sh
+bash my_scripts/anetlv_ft_our_data.sh
+bash my_scripts/anet_ft_raw_data.sh
+bash my_scripts/anetdv_ft_raw_data.sh
+bash my_scripts/anetlv_ft_our_data.sh
+bash my_scripts/anetdv_ft_mix_data.sh
+bash my_scripts/anetlv_ft_mix_data.sh
+
+bash my_scripts/anetdv_ft_our_data_inference.sh
+bash my_scripts/anetdv_ft_our_data_inference.sh
+bash my_scripts/anet_ft_raw_data_inference.sh
+bash my_scripts/anetdv_ft_raw_data_inference.sh
+bash my_scripts/anetdv_ft_raw_data_inference.sh
+bash my_scripts/anetdv_ft_mix_data_inference.sh
+bash my_scripts/anetdv_ft_mix_data_inference.sh
+```
+
 ## Environment
 
 ```shell
