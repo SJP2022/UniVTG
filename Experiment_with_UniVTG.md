@@ -15,14 +15,6 @@ bash my_scripts/anetdv_ft_raw_data.sh
 bash my_scripts/anetlv_ft_our_data.sh
 bash my_scripts/anetdv_ft_mix_data.sh
 bash my_scripts/anetlv_ft_mix_data.sh
-
-bash my_scripts/anetdv_ft_our_data_inference.sh
-bash my_scripts/anetdv_ft_our_data_inference.sh
-bash my_scripts/anet_ft_raw_data_inference.sh
-bash my_scripts/anetdv_ft_raw_data_inference.sh
-bash my_scripts/anetdv_ft_raw_data_inference.sh
-bash my_scripts/anetdv_ft_mix_data_inference.sh
-bash my_scripts/anetdv_ft_mix_data_inference.sh
 ```
 
 ## Environment
