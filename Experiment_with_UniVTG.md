@@ -13,6 +13,17 @@ conda activate univtg
 pip install -r requirements.txt
 ```
 
+## Mkdir
+
+```shell
+# for slurm out log
+mkdir out/preprocess_out out/anet_ft_out out/anetdv_ft_out out/anetlv_ft_out
+# for ckpt
+mkdir results/slowfast_ft results/slowfast_pt
+# for text features
+mkdir data/anet/txt_clip data/anet/txt_clip_test data/anetdv/txt_clip data/anetlv/txt_clip
+```
+
 ## Dataset
 
 1. Download the video features for downstream dataset.
@@ -42,6 +53,7 @@ pip install -r requirements.txt
    │   ├── anet
    │   │   ├── metadata
    │   │   ├── txt_clip
+   │   │   ├── txt_clip_test
    │   │   ├── vid_clip
    │   │   └── vid_slowfast
    │   ├── anetdv_new
