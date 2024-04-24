@@ -107,7 +107,7 @@ else
   exit 1
 fi
 
-python main/train_mr.py \
+python -u main/train_mr.py \
 --dset_type ${dset_type}   \
 --dset_name ${dset_name} \
 --anno_type ${anno_type} \
@@ -158,6 +158,7 @@ python main/train_mr.py \
 --resume ${resume}  \
 --out ${out} \
 --eval_init ${@:1}  \
+> out/anetlv_ft_out/anetlv_ft_mix_data.out
 
 #evaluate
 
@@ -253,7 +254,7 @@ else
   exit 1
 fi
 
-python main/train_mr.py \
+python -u main/train_mr.py \
 --dset_type ${dset_type}   \
 --dset_name ${dset_name} \
 --anno_type ${anno_type} \
@@ -304,3 +305,4 @@ python main/train_mr.py \
 --resume ${resume}  \
 --out ${out} \
 --eval_init ${@:1}  \
+> out/anetlv_ft_out/anetlv_ft_mix_data_inference.out
